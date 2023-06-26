@@ -1,7 +1,6 @@
-#include <stdio.h>
+extern int printf(const char* string);
 
 int main() {
-    char* str = "Hello, World!\n";
-    printf("%s", str); // Print "Hello, World!"
+    printf("Hello World!\n", str); // Print "Hello, World!"
     return 0;
 }

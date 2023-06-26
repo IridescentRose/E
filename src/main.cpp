@@ -2,6 +2,42 @@
 #include "util.hpp"
 #include "Tokenizer.hpp"
 
+class ExprAST {
+public:
+        virtual ~ExprAst() = default;
+
+};
+
+class PrototypeAST : public ExprAST {
+        std::string name;
+        std::vector<std::string> args;
+
+public:
+        PrototypeAST(const std::string& Name, const std::vector<std::string> Args) 
+                : name(Name), args(std::move(Args)) {}
+        const std::string& getName() { return name; }
+};
+
+class CallExprAst : public ExprAST {
+        std::string callee;
+        std::vector<std::unique_ptr<ExprAST>> args;
+
+public:
+        CallExprAst(const std::string& Callee, std::vector<std::unique_ptr<ExprAST> Args)
+                : callee(Callee), args(std::move(Args)) {}
+};
+
+class FunctionAST : public ExprAST {
+        std::unique_ptr<PrototypeAST> prototype;
+        std::unique_ptr<ExprAST> body;
+
+public:
+        FunctionAST(std::unique_ptr<PrototypeAST> Prototype, std::unique_ptr<ExprAst> Body)
+                : prototype(std::move(Prototype)), body(std::move(Body)) {}
+};
+
+
+
 auto main (int argc, char *argv[]) -> int 
 {
         if(argc < 2) {
